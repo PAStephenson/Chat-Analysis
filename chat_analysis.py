@@ -1,5 +1,8 @@
 import re
 
+import pandas as pd
+
+
 def split_data(chat_log):
     """Split data string up into date, time, sender and message parts."""
     # Date the message was sent
@@ -37,9 +40,19 @@ def split_data(chat_log):
 if __name__ == '__main__':
 
     # Path to chat file downloaded from WhatsApp 
-    chat_data = 'Chat_Data/BDBoys_Chat.txt'
+    data_file = 'Chat_Data/BDBoys_Chat.txt'
 
-    with open(chat_data) as f:
+    with open(data_file) as f:
         chat_log = f.read().split('\n')
     
-    split_data(chat_log)
+    # Prepare the date for placing into data frame
+    prepared_data = split_data(chat_log)
+
+    data_dictionary = {
+            'date': prepared_data[0], # message_date
+            'time': prepared_data[1], # message_time
+            'sender': prepared_data[2], # message_sender
+            'content': prepared_data[3], # message_content
+            }
+    
+    chat_data = pd.DataFrame(data_dictionary)
