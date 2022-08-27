@@ -40,7 +40,7 @@ def split_data(chat_log):
 if __name__ == '__main__':
 
     # Path to chat file downloaded from WhatsApp 
-    data_file = 'Chat_Data/BDBoys_Chat.txt'
+    data_file = 'PATH_TO_WHATSAPP_CHAT_FILE'
 
     with open(data_file) as f:
         chat_log = f.read().split('\n')
