@@ -1,0 +1,11 @@
+# Python virtual environment.
+venv/
+
+# macOS folder settings.
+.DS_Store
+
+# Temporary folder used by MacVim.
+*.swp
+
+# Chat Data folder
+Chat_Data/
