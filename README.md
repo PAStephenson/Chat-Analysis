@@ -6,7 +6,7 @@ and generates a pandas data frame of this data.
 The generated data frame has columns for: message date, message time, message sender and message
 content.
 
-## Obtain WhatsApp Data
+## Obtaining WhatsApp Data
 [This guide](https://faq.whatsapp.com/196737011380816/?helpref=search&query=export%20chat%20history&search_session_id=13b2f689afbc8a73cac18906bb3169d1&sr=0) details how to download WhatsApp chat data.
 
 ## Missing Messages
