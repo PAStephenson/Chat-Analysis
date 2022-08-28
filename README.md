@@ -20,7 +20,7 @@ can be found in the same directory that the script was run from after the script
 Once the script has run it will indicate what percentage of the original data was added to the
 data frame.
 
-## Media is Messages
+## Media in Messages
 When exporting chat data, WhatsApp will offer to export with or without media files attached.
 Chat Data Frame has only been tested on data without media files.
 
