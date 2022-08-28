@@ -1,9 +1,33 @@
+"""
+A simple script to create a Pandas Data Frame using WhatsApp chat data.
+"""
 import re
 
 import pandas as pd
 
 
-def split_data(chat_log):
+def make_data_frame(data_file):
+    """Create a data frame from WhatsApp chat data."""
+
+    with open(data_file) as f:
+        chat_log = f.read().split('\n')
+    
+    # Prepare the date for placing into data frame
+    prepared_data = _split_data(chat_log)
+
+    data_dictionary = {
+            'date': prepared_data[0], # message_date
+            'time': prepared_data[1], # message_time
+            'sender': prepared_data[2], # message_sender
+            'content': prepared_data[3], # message_content
+            }
+
+    chat_data = pd.DataFrame(data_dictionary)
+
+    return chat_data
+
+
+def _split_data(chat_log):
     """Split data string up into date, time, sender and message parts."""
     # Date the message was sent
     message_date = []
@@ -42,17 +66,4 @@ if __name__ == '__main__':
     # Path to chat file downloaded from WhatsApp 
     data_file = 'PATH_TO_WHATSAPP_CHAT_FILE'
 
-    with open(data_file) as f:
-        chat_log = f.read().split('\n')
-    
-    # Prepare the date for placing into data frame
-    prepared_data = split_data(chat_log)
-
-    data_dictionary = {
-            'date': prepared_data[0], # message_date
-            'time': prepared_data[1], # message_time
-            'sender': prepared_data[2], # message_sender
-            'content': prepared_data[3], # message_content
-            }
-    
-    chat_data = pd.DataFrame(data_dictionary)
+    chat_data = make_data_frame(data_file)
