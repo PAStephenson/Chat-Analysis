@@ -1,5 +1,5 @@
 """
-A simple script to create a Pandas Data Frame using WhatsApp chat data.
+A simple script to create a Pandas Data Frame from WhatsApp chat data.
 """
 import re
 
@@ -24,6 +24,11 @@ def make_data_frame(data_file):
 
     chat_data = pd.DataFrame(data_dictionary)
 
+    # Percentage of messages in the data successfully add to the data frame 
+    percentage = (len(prepared_data[0]) / len(chat_log)) * 100
+    print(f"\n{round(percentage, 2)} % of chat data added to data frame.")
+    print("Missing message have been written to the file 'failed_messages.txt'.")
+
     return chat_data
 
 
@@ -37,6 +42,8 @@ def _split_data(chat_log):
     message_sender = []
     # Message content
     message_content = []
+    # To hold messages which do not split correctly
+    failed_messages = []
 
     for message in chat_log:
         # Split the message into date/time, sender and content
@@ -47,10 +54,9 @@ def _split_data(chat_log):
             message_date.append(split_message[0])
             message_sender.append(split_message[1])
             message_content.append(split_message[2])
-        # This block will trigger if message was not split correctly
         else:
-            # Messages here will be left out of data. Need to fix
-            pass
+            # Any messages not split correctly, to be written to a separate file
+            failed_messages.append("".join(message))
 
     for index, date in enumerate(message_date):
         date_time_split = date.split(', ')
@@ -58,12 +64,22 @@ def _split_data(chat_log):
         # Trim the unneeded character ([) from the start of the date
         message_date[index] = date_time_split.pop()[-10:]
 
+    if len(failed_messages) > 0:
+        _write_failed_data(failed_messages)
+
     return [message_date, message_time, message_sender, message_content]
+
+
+def _write_failed_data(failed_messages):
+    """Write messages which split incorrectly to a text file."""
+    with open('failed_messages.txt', 'w') as f:
+        for message in failed_messages:
+            f.write(f"{message}\n")
 
 
 if __name__ == '__main__':
 
-    # Path to chat file downloaded from WhatsApp 
-    data_file = 'PATH_TO_WHATSAPP_CHAT_FILE'
+    # Path to chat file downloaded from WhatsApp, update as needed 
+    data_file = '_chat.txt'
 
     chat_data = make_data_frame(data_file)
